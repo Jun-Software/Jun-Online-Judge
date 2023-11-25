@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="../static/bootstrap.min.css">
+	</head>
+	<body>
+		<ul class="nav justify-content-end nav-tabs">
+			<li class="nav-item">
+				<a class="nav-link active">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/login">Login</a>
+			</li>
+		</ul>
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">&emsp;#</th>
+					<th scope="col">Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for problem in problems %}
+    			<tr>
+        			<th scope="row"><a class="btn btn-link" href="/{{ problem['id'] }}">{{ problem['id'] }}</a></th>
+        			<td>{{ problem['name'] }}</td>
+    			</tr>
+				{% endfor %}
+  			</tbody>
+		</table>
+	</body>
+</html>
