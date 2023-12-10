@@ -14,7 +14,7 @@
 		</ul>
 		<div class="card m-3">
 			<div class="m-3">
-				{{ problem_description|safe }}
+				{{ problem_description|markdown|safe }}
 			</div>
 		</div>
 		<form class="card m-3" method="post" enctype="multipart/form-data" action="/{{ problem_id }}">

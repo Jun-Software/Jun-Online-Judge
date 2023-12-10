@@ -1,60 +1,72 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<link rel="stylesheet" href="../static/bootstrap.min.css">
-	</head>
-	<body>
-		<ul class="nav justify-content-end nav-tabs">
-			<li class="nav-item">
-				<a class="nav-link" href="/">Home</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="/login">Login</a>
-			</li>
-		</ul>
-		<div class="card m-3">
-		<form method="post" action="/api/problem" class="m-3" enctype="multipart/form-data" >
-			<div class="form-check mb-3">
-				<input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">Delete</label>
-			</div>
-			<div class="form-check mb-3">
-				<input type="radio" class="form-check-input" value="add" name="type" id="radio2"><label class="form-check-label" for="radio2">Addition</label>
-			</div>
-			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Problem ID" name="id">
-			</div>
-			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Problem Name (If type is Addition)" name="name">
-			</div>
-			<div class="input-group mb-3">
-				<textarea type="text" class="form-control"  placeholder="Problem Description (If type is Addition)" name="description"></textarea>
-			</div>
-			<p>All test file (.zip) (If type is addition): </p>
-			<div class="input-group mb-3">
-				<input type="file" class="form-control" name="file"></textarea>
-			</div>
-			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Problem Test File Count (If type is Addition)" name="count">
-			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
-		</form>
-		</div>
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">&emsp;#</th>
-					<th scope="col">Name</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for problem in problems %}
-    			<tr>
-        			<th scope="row"><a class="btn btn-link" href="/{{ problem['id'] }}">{{ problem['id'] }}</a></th>
-        			<td>{{ problem['name'] }}</td>
-    			</tr>
-				{% endfor %}
-  			</tbody>
-		</table>
-		</div>
-	</body>
+    <head>
+        <link rel="stylesheet" href="../static/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/editormd/css/editormd.min.css" />
+    </head>
+    <body>
+        <ul class="nav justify-content-end nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+        </ul>
+        <div class="card m-3">
+        <form method="post" action="/api/problem" class="m-3" enctype="multipart/form-data" >
+            <div class="form-check mb-3">
+                <input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">Delete</label>
+            </div>
+            <div class="form-check mb-3">
+                <input type="radio" class="form-check-input" value="add" name="type" id="radio2"><label class="form-check-label" for="radio2">Addition</label>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Problem ID" name="id">
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Problem Name (If type is Addition)" name="name">
+            </div>
+            <div class="input-group mb-3">
+                <div id="editor" class="form-control"><textarea placeholder="Problem Description (If type is Addition)" name="description"></textarea></div>
+            </div>
+            <p>All test file (.zip) (If type is addition): </p>
+            <div class="input-group mb-3">
+                <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Problem Test File Count (If type is Addition)" name="count">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">&emsp;#</th>
+                    <th scope="col">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for problem in problems %}
+                <tr>
+                    <th scope="row"><a class="btn btn-link" href="/{{ problem['id'] }}">{{ problem['id'] }}</a></th>
+                    <td>{{ problem['name'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+        </div>
+        <script src="../static/jquery.min.js"></script>
+        <script src="../static/editormd/editormd.js"></script>
+        <script type="text/javascript">
+            var editor;
+            $(function() {
+                    editor = editormd("editor", {
+                    syncScrolling: "single",
+                    path: "../static/editormd/lib/"
+                });
+            });
+        </script>
+    </body>
 </html>

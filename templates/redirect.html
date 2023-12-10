@@ -1,0 +1,8 @@
+<form method="post" action="/admin" id="form">
+    <input type="password" name="password" value="{{ passwd }}" />
+</form>
+<script>
+    setTimeout(() => {
+        document.getElementById('form').submit();
+    }, 0);
+</script>

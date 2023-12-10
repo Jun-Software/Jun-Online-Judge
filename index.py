@@ -6,6 +6,7 @@ import pickle
 import shutil
 import os
 import sys
+from flaskext.markdown import *
 # from gevent import monkey
 # monkey.patch_all()
 
@@ -53,6 +54,7 @@ except:
     pass
 from config import *
 app = Flask(__name__)
+Markdown(app)
 @app.route('/', methods = ['GET'])
 def index():
     return render_template('index.html', problems = problems)
@@ -108,7 +110,8 @@ def problem_api():
             pickle.dump(problems, f)
     else:
         return '404 Not Found'
-    return redirect('/problem_manager')
+    global password
+    return render_template('redirect.html', passwd = password)
 
 if __name__ == '__main__':
     # from gevent import pywsgi
