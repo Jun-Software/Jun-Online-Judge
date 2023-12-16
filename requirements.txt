@@ -1,3 +1,5 @@
+jinja2==2.11.3
+Markupsafe==2.0.1
 flask
 gevent
 shutilwhich
