@@ -8,17 +8,45 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/">Home</a>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link active" href="/login">Login</a>
-			</li>
 		</ul>
 		<div class="card m-3">
+		<form method="post" action="/api/login" class="m-3">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Username" name="username">
+			</div>
+			<div class="input-group mb-3">
+				<input type="password" class="form-control" placeholder="Password" name="password">
+			</div>
+			<button type="submit" class="btn btn-primary">Login</button>
+		</form>
+		<details class="m-3">
+		<summary>Administrator Login</summary>
+		<div class="card">
 		<form method="post" action="/admin" class="m-3">
 			<div class="input-group mb-3">
 				<input type="password" class="form-control" placeholder="Password" name="password">
 			</div>
 			<button type="submit" class="btn btn-primary">Login</button>
 		</form>
+		</div>
+		</details>
+		<details class="m-3">
+		<summary>Register</summary>
+		<div class="card">
+		<form method="post" action="/api/register" class="m-3">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Username" name="username">
+			</div>
+			<div class="input-group mb-3">
+				<input type="password" class="form-control" placeholder="Password" name="password">
+			</div>
+			<div class="input-group mb-3">
+				<input type="email" class="form-control" placeholder="E-Mail" name="email">
+			</div>
+			<button type="submit" class="btn btn-primary">Register</button>
+		</form>
+		</div>
+		</details>
 		</div>
 	</body>
 </html>
