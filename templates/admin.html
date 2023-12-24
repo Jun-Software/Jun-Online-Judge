@@ -94,7 +94,7 @@
             </div>
             <script>
                 function generate_content_link() {
-                    alert("The link is '{{ url }}content?problems=" + document.getElementById('problems').value + "&time=" + document.getElementById('time').value + "'")
+                    alert("The link is '" + location.origin + "/content?problems=" + document.getElementById('problems').value + "&time=" + document.getElementById('time').value + "'")
                 }
             </script>
             <button class="btn btn-primary" onclick="generate_content_link()">Generate Link</button>
