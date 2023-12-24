@@ -23,7 +23,11 @@
             <tbody>
                 {% for i in range(len(users)) %}
                 <tr>
+                    {% if i > 0 and len(users[i]['ac']) == len(users[i - 1]['ac']) %}
+                    <th>&emsp;{{ i }}</th>
+                    {% else %}
                     <th>&emsp;{{ i + 1 }}</th>
+                    {% endif %}
                     <td><a class="btn btn-link" href="/profile?username={{ users[i]['username'] }}">{{ users[i]['username'] }}</a></td>
                     <td>{{ len(users[i]['ac']) }}</td>
                 </tr>

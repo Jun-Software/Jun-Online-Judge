@@ -43,6 +43,29 @@
         </div>
         </details>
         <details class="m-3">
+        <summary>User</summary>
+        <div class="card">
+        <form method="post" action="/api/user" class="m-3" enctype="multipart/form-data" >
+            <div class="form-check mb-3">
+                <input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">Delete</label>
+            </div>
+            <div class="form-check mb-3">
+                <input type="radio" class="form-check-input" value="add" name="type" id="radio2"><label class="form-check-label" for="radio2">Addition</label>
+            </div>
+            <div class="form-check mb-3">
+                <input type="radio" class="form-check-input" value="ban" name="type" id="radio3"><label class="form-check-label" for="radio2">Ban</label>
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Username" name="username">
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Password (If type is Addition)" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+        </details>
+        <details class="m-3">
         <summary>Backup</summary>
         <div class="card">
             <div class="m-3">
@@ -79,6 +102,8 @@
         </div>
         </details>
         </div>
+        <details class="m-3">
+        <summary>Problems</summary>
         <table class="table">
             <thead>
                 <tr>
@@ -95,6 +120,30 @@
                 {% endfor %}
               </tbody>
         </table>
+        </details>
+        <details class="m-3">
+        <summary>Users</summary>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">&emsp;#</th>
+                    <th>&ensp;&nbsp;Name</th>
+                    <th>Email</th>
+                    <th>Ban</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(len(users)) %}
+                <tr>
+                    <th>&emsp;{{ i + 1 }}</th>
+                    <td><a class="btn btn-link" href="/profile?username={{ users[i]['username'] }}">{{ users[i]['username'] }}</a></td>
+                    <td>{{ users[i]['email'] }}</td>
+                    <td>{{ users[i]['ban'] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+        </table>
+        </details>
         </div>
         <script src="../static/jquery.min.js"></script>
         <script src="../static/editormd/editormd.js"></script>

@@ -78,7 +78,7 @@ try:
     with open('user.dat', 'rb') as f:
         users = pickle.load(f)
 except:
-    users = [{'username': 'admin', 'password': digest(admin_password), 'ac': [], 'profile': ''}]
+    users = [{'username': 'admin', 'password': digest(admin_password), 'ac': [], 'profile': '', 'ban': False}]
     with open('user.dat', 'wb') as f:
         pickle.dump(users, f)
 try:
@@ -150,7 +150,7 @@ def admin():
     passwd = request.values.get('password')
     global admin_password
     if passwd == admin_password:
-        return render_template('admin.html', problems = problems, admin_password = admin_password, url = request.host_url)
+        return render_template('admin.html', problems = problems, admin_password = admin_password, url = request.host_url, users = users, len = len)
     return "403 Forbidden"
 
 @app.route('/backup')
@@ -253,6 +253,44 @@ def problem_api():
     global password
     return render_template('redirect.html', passwd = admin_password)
 
+@app.route('/api/user', methods = ['POST'])
+def user_api():
+    Type = request.values.get('type')
+    username = request.values.get('username')
+    password = request.values.get('password')
+    global users
+    if Type == 'add':
+        flag = True
+        for user in users:
+            if user['username'] == username:
+                flag = False
+                break
+        if flag == False:
+            return "Username is already."
+        users.append({'username': username, 'password': password, 'email': '', 'ac': [], 'profile': '', 'ban': False})
+        with open('user.dat', 'wb') as f:
+            pickle.dump(users, f)
+    elif Type == 'del':
+        if username == 'admin':
+            return "You cannot delete the Administrator account."
+        for user in users:
+            if user['username'] == username:
+                users.remove(user)
+                break
+    elif Type == 'ban':
+        if username == 'admin':
+            return "You cannot ban the Administrator account."
+        for user in users:
+            if user['username'] == username:
+                user['ban'] = True
+                break
+    else:
+        return '404 Not Found'
+    with open('user.dat', 'wb') as f:
+        pickle.dump(users, f)
+    global admin_password
+    return render_template('redirect.html', passwd = admin_password)
+
 @app.route("/api/login", methods = ['POST'])
 def login_api():
     username = request.values.get('username')
@@ -260,6 +298,8 @@ def login_api():
     global users
     for user in users:
         if user['username'] == username and user['password'] == digest(password):
+            if user['ban'] == True:
+                return render_template('login_redirect.html', message = "Your account is ban.")
             session['username'] = username
             session['ac'] = user['ac']
             break
