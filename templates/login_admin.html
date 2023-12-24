@@ -10,13 +10,12 @@
             </li>
         </ul>
         <div class="card m-3">
-            <center class="card-title m-3">
-                <h1>{{ user['username'] }}</h1>
-            </center>
-            <div class="card-body">
-                {{ user['profile']|safe }}
-                <button class="btn btn-primary" onclick="history.back()">Back</button>
+        <form method="post" action="/admin" class="m-3">
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" placeholder="Password" name="password">
             </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
         </div>
     </body>
 </html>

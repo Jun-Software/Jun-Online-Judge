@@ -1,7 +1,5 @@
-jinja2==2.11.3
-Markupsafe==2.0.1
-flask==1.1.4
+flask
 gevent
 shutilwhich
-flask_markdown
+markdown
 snowland-smx

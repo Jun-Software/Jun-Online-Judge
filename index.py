@@ -9,7 +9,7 @@ import shutil
 import shlex
 import os
 import sys
-from flaskext.markdown import *
+from markdown import markdown
 # from gevent import monkey
 # monkey.patch_all()
 
@@ -65,17 +65,22 @@ def createBackup(outFullName):
     zip.write(os.path.join(os.getcwd(), 'data.dat'), os.path.join('', 'data.dat'))
     zip.write(os.path.join(os.getcwd(), 'user.dat'), os.path.join('', 'user.dat'))
     zip.close()
-
+problems = []
 try:
     with open('data.dat', 'rb') as f:
         problems = pickle.load(f)
 except:
     problems = []
+    with open('data.dat', 'wb') as f:
+        pickle.dump(problems, f)
+users = []
 try:
     with open('user.dat', 'rb') as f:
         users = pickle.load(f)
 except:
-    users = []
+    users = [{'username': 'admin', 'password': digest(admin_password), 'ac': [], 'profile': ''}]
+    with open('user.dat', 'wb') as f:
+        pickle.dump(users, f)
 try:
     os.mkdir('problem/')
 except:
@@ -86,7 +91,6 @@ def user_sort_key(elem):
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = admin_password
-Markdown(app)
 @app.route('/', methods = ['GET'])
 def index():
     if session.get('username') is None:
@@ -117,12 +121,24 @@ def problem(ojpath):
                         pickle.dump(users, f)
                 return render_template("test.html", result = result)
             elif request.method == 'GET':
-                return render_template('problem.html', problem_description = problem['description'], problem_id = problem['id'], language = judge_language)
+                return render_template('problem.html', problem_description = markdown(problem['description']), problem_id = problem['id'], language = judge_language)
     return "404 Not Found"
+
+@app.route('/content')
+def content():
+    problems = request.values.get('problems').split(';')
+    minute = request.values.get('time')
+    if session.get('ac') == None:
+        return redirect('/login')
+    return render_template('content.html', problems = problems, ac = session.get('ac'), time = minute, len = len)
 
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+@app.route('/login_admin')
+def login_admin():
+    return render_template('login_admin.html')
 
 @app.route('/logout')
 def logout():
@@ -134,7 +150,7 @@ def admin():
     passwd = request.values.get('password')
     global admin_password
     if passwd == admin_password:
-        return render_template('problem_manager.html', problems = problems, admin_password = admin_password)
+        return render_template('admin.html', problems = problems, admin_password = admin_password, url = request.host_url)
     return "403 Forbidden"
 
 @app.route('/backup')
@@ -155,15 +171,16 @@ def rank():
 def change_profile():
     global users
     if request.method == "GET":
-        for user in users:
-            if user['username'] == session.get('username'):
-                return render_template('change_profile.html', user = user)
+        if session.get('username') is not None:
+            for user in users:
+                if user['username'] == session.get('username'):
+                    return render_template('change_profile.html', user = user)
         return redirect('/login')
     username = session.get('username')
     profile = request.values.get('profile')
     for user in users:
         if username == user['username']:
-            user['profile'] = profile
+            user['profile'] = markdown(profile)
             break
     with open('user.dat', 'wb') as f:
         pickle.dump(users, f)

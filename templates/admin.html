@@ -11,6 +11,10 @@
             </li>
         </ul>
         <div class="card m-3">
+        <center class="m-3"><h4>Control Panel</h4></center>
+        <details class="m-3">
+        <summary>Problem</summary>
+        <div class="card">
         <form method="post" action="/api/problem" class="m-3" enctype="multipart/form-data" >
             <div class="form-check mb-3">
                 <input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">Delete</label>
@@ -27,15 +31,17 @@
             <div class="input-group mb-3">
                 <div id="editor" class="form-control"><textarea placeholder="Problem Description (If type is Addition)" name="description"></textarea></div>
             </div>
-            <p>All test file (.zip) (If type is addition): </p>
+            <p>All Judge File (.zip) (If type is addition): </p>
             <div class="input-group mb-3">
                 <input type="file" class="form-control" name="file" />
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Problem Test File Count (If type is Addition)" name="count">
+                <input type="text" class="form-control" placeholder="Problem Judge File Count (If type is Addition)" name="count">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        </div>
+        </details>
         <details class="m-3">
         <summary>Backup</summary>
         <div class="card">
@@ -51,6 +57,25 @@
                 </div>
                 <button class="btn btn-primary">Submit</button>
             </form>
+        </div>
+        </details>
+        <details class="m-3">
+        <summary>Content</summary>
+        <div class="card">
+            <div class="m-3">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Problems (Use ';' split)" id="problems">
+            </div>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Time (Minute)" id="time">
+            </div>
+            <script>
+                function generate_content_link() {
+                    alert("The link is '{{ url }}content?problems=" + document.getElementById('problems').value + "&time=" + document.getElementById('time').value + "'")
+                }
+            </script>
+            <button class="btn btn-primary" onclick="generate_content_link()">Generate Link</button>
+            </div>
         </div>
         </details>
         </div>
