@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="../static/bootstrap.min.css">
+		<script src="../static/bootstrap.bundle.min.js"></script>
 	</head>
 	<body>
 		<ul class="nav justify-content-end nav-tabs">
@@ -9,7 +10,22 @@
 				<a class="nav-link active">Home</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link">Welcome, {{ username }}</a>
+				<a class="nav-link" href="/rank">Rank</a>
+			</li>
+			<li class="nav-item">
+				<div class="dropdown">
+				<a class="dropdown-toggle btn nav-link" data-bs-toggle="dropdown" aria-expanded="false">Welcome, {{ username }}</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a class="dropdown-item" href="/profile?username={{ username }}">Profile</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="/change_profile">Change Profile</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="/logout">Logout</a>
+					</li>
+				</ul>
 			</li>
 		</ul>
 		<table class="table">

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../static/bootstrap.min.css">
+        <link rel="stylesheet" href="../static/editormd/css/editormd.min.css" />
+    </head>
+    <body>
+        <ul class="nav justify-content-end nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+        </ul>
+        <div class="card m-3">
+        <form method="post" action="/change_profile" class="m-3" enctype="multipart/form-data" >
+            Profile: 
+            <div class="input-group mb-3">
+                <div id="editor" class="form-control"><textarea name="profile">{{ user['profile'] }}</textarea></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+        <script src="../static/jquery.min.js"></script>
+        <script src="../static/editormd/editormd.js"></script>
+        <script type="text/javascript">
+            var editor;
+            $(function() {
+                editor = editormd("editor", {
+                    height: "50vh",
+                    syncScrolling: "single",
+                    path: "../static/editormd/lib/"
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -36,6 +36,23 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <details class="m-3">
+        <summary>Backup</summary>
+        <div class="card">
+            <div class="m-3">
+                <a class="btn btn-primary" href="/backup?password={{ admin_password }}">Download Backup</a>
+            </div>
+            <hr />
+            <form method="post" action="/api/backup" class="m-3" enctype="multipart/form-data" >
+                <input type="password" value="{{ admin_password }}" readonly style="display: none;" name="passwd">
+                <p>Upload backup file: </p>
+                <div class="input-group mb-3">
+                    <input type="file" class="form-control" name="file" />
+                </div>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        </details>
         </div>
         <table class="table">
             <thead>

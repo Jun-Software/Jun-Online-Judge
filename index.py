@@ -54,6 +54,18 @@ def run(name: str, count: int):
             timer.cancel()
     return result
 
+def createBackup(outFullName):
+    dirpath = os.getcwd() + '/problem'
+    zip = zipfile.ZipFile(outFullName, "w", zipfile.ZIP_DEFLATED)
+    for path, dirnames, filenames in os.walk(dirpath):
+        print(path, dirnames, filenames)
+        fpath = path.replace(os.getcwd(), '')
+        for filename in filenames:
+            zip.write(os.path.join(path, filename), os.path.join(fpath, filename))
+    zip.write(os.path.join(os.getcwd(), 'data.dat'), os.path.join('', 'data.dat'))
+    zip.write(os.path.join(os.getcwd(), 'user.dat'), os.path.join('', 'user.dat'))
+    zip.close()
+
 try:
     with open('data.dat', 'rb') as f:
         problems = pickle.load(f)
@@ -68,6 +80,10 @@ try:
     os.mkdir('problem/')
 except:
     pass
+
+def user_sort_key(elem):
+    return len(elem['ac'])
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = admin_password
 Markdown(app)
@@ -90,7 +106,7 @@ def problem(ojpath):
                         result = "Dangerous Syscalls"
                 result = run(str(problem['id']), int(problem['count']))
                 global user
-                if result == 'Accepted' and session.get('username') is not None:
+                if result == 'Accepted' and session.get('username') is not None and problem['id'] not in session.get('ac'):
                     global users
                     for user in users:
                         if user['username'] == session.get('username'):
@@ -107,14 +123,63 @@ def problem(ojpath):
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
     
 @app.route('/admin', methods = ['POST'])
 def admin():
     passwd = request.values.get('password')
     global admin_password
     if passwd == admin_password:
-        return render_template('problem_manager.html', problems = problems)
+        return render_template('problem_manager.html', problems = problems, admin_password = admin_password)
     return "403 Forbidden"
+
+@app.route('/backup')
+def backup():
+    passwd = request.values.get("password")
+    global admin_password
+    if passwd == admin_password:
+        createBackup("static/backup.zip")
+        return redirect("/static/backup.zip")
+    return "403 Forbidden"
+
+@app.route('/rank')
+def rank():
+    users.sort(key = user_sort_key)
+    return render_template('rank.html', users = users, len = len)
+
+@app.route('/change_profile', methods = ["GET", "POST"])
+def change_profile():
+    global users
+    if request.method == "GET":
+        for user in users:
+            if user['username'] == session.get('username'):
+                return render_template('change_profile.html', user = user)
+        return redirect('/login')
+    username = session.get('username')
+    profile = request.values.get('profile')
+    for user in users:
+        if username == user['username']:
+            user['profile'] = profile
+            break
+    with open('user.dat', 'wb') as f:
+        pickle.dump(users, f)
+    return redirect('/')
+
+@app.route('/profile')
+def profile():
+    username = request.values.get('username')
+    if username is None:
+        return redirect('/')
+    global users
+    for user in users:
+        if user['username'] == username:
+            return render_template('profile.html', user = user)
+    return redirect('/')
+
 
 @app.route('/api/problem', methods = ['POST'])
 def problem_api():
@@ -141,7 +206,7 @@ def problem_api():
     else:
         return '404 Not Found'
     global password
-    return render_template('redirect.html', passwd = password)
+    return render_template('redirect.html', passwd = admin_password)
 
 @app.route("/api/login", methods = ['POST'])
 def login_api():
@@ -167,12 +232,37 @@ def register_api():
             break
     if flag == False:
         return render_template('login_redirect.html', message = "Username is already.")
-    users.append({'username': username, 'password': password, 'email': email, 'ac': []})
+    users.append({'username': username, 'password': password, 'email': email, 'ac': [], 'profile': ''})
     with open('user.dat', 'wb') as f:
         pickle.dump(users, f)
     session['username'] = username
     session['ac'] = []
     return redirect('/')
+
+@app.route("/api/backup", methods = ["POST"])
+def upload_backup():
+    backup_file = request.files.get('file')
+    passwd = request.values.get('passwd')
+    backup_file.save('backup.zip')
+    zipfile.ZipFile('backup.zip').extractall()
+    global problems
+    try:
+        with open('data.dat', 'rb') as f:
+            problems = pickle.load(f)
+    except:
+        problems = []
+    global users
+    try:
+        with open('user.dat', 'rb') as f:
+            users = pickle.load(f)
+    except:
+        users = []
+    try:
+        os.mkdir('problem/')
+    except:
+        pass
+    return render_template("redirect.html", passwd = passwd)
+
 
 if __name__ == '__main__':
     # from gevent import pywsgi
