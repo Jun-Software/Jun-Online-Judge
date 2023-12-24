@@ -178,6 +178,20 @@ def change_profile():
         return redirect('/login')
     username = session.get('username')
     profile = request.values.get('profile')
+    cnt = 0
+    while profile.find('```') != -1:
+        cnt += 1
+        if cnt % 2 != 0:
+            profile = profile.replace('```', '<textarea>', 1)
+        else:
+            profile = profile.replace('```', '</textarea>', 1)
+    cnt = 0
+    while profile.find('`') != -1:
+        cnt += 1
+        if cnt % 2 != 0:
+            profile = profile.replace('`', '<textarea>', 1)
+        else:
+            profile = profile.replace('`', '</textarea>', 1)
     for user in users:
         if username == user['username']:
             user['profile'] = markdown(profile)
@@ -207,6 +221,20 @@ def problem_api():
     zip_file = request.files.get('file')
     problem_count = request.values.get('count')
     if Type == 'add':
+        cnt = 0
+        while problem_description.find('```') != -1:
+            cnt += 1
+            if cnt % 2 != 0:
+                problem_description = problem_description.replace('```', '<textarea>', 1)
+            else:
+                problem_description = problem_description.replace('```', '</textarea>', 1)
+        cnt = 0
+        while problem_description.find('`') != -1:
+            cnt += 1
+            if cnt % 2 != 0:
+                problem_description = problem_description.replace('`', '<textarea>', 1)
+            else:
+                problem_description = problem_description.replace('`', '</textarea>', 1)
         os.mkdir('problem/' + problem_id + '/')
         zip_file.save('problem/' + problem_id + '/' + problem_id + '.zip')
         zipfile.ZipFile('problem/' + problem_id + '/' + problem_id + '.zip').extractall('problem/' + problem_id + '/')
