@@ -126,11 +126,16 @@ def problem(ojpath):
 
 @app.route('/content')
 def content():
-    problems = request.values.get('problems').split(';')
-    minute = request.values.get('time')
+    problems = request.values.get('problems')
     if session.get('ac') == None:
         return redirect('/login')
-    return render_template('content.html', problems = problems, ac = session.get('ac'), time = minute, len = len)
+    minute = request.values.get('time')
+    return render_template('content.html', time = minute, len = len, problems = problems)
+
+@app.route('/frame_content')
+def frame_content():
+    problems = request.values.get('problems').split(';')
+    return render_template('content_problems.html', problems = problems, ac = session.get('ac'))
 
 @app.route('/login')
 def login():
