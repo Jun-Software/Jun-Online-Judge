@@ -154,8 +154,9 @@ def logout():
 def admin():
     passwd = request.values.get('password')
     global admin_password
+    global problem_template
     if passwd == admin_password:
-        return render_template('admin.html', problems = problems, admin_password = admin_password, users = users, len = len)
+        return render_template('admin.html', problems = problems, admin_password = admin_password, users = users, len = len, problem_template = problem_template)
     return "403 Forbidden"
 
 @app.route('/backup')
