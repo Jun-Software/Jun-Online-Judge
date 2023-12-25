@@ -1,5 +1,4 @@
 flask
-gevent
 shutilwhich
 markdown
 snowland-smx
