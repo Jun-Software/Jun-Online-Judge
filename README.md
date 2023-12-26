@@ -6,7 +6,7 @@
 <details>
 <summary>部署教程</summary>
 
-一键下载依赖（Linux）： `. <(curl https://gh.imjcj.eu.org/https://github.com/Jun-Software/Jun-Online-Judge/raw/master/install.sh)`
+一键下载依赖（Linux）： `curl https://gh.imjcj.eu.org/https://raw.githubusercontent.com/Jun-Software/Jun-Online-Judge/master/install.sh | sudo bash`
 
 手动下载依赖：
 1. 安装`git`
