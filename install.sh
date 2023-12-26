@@ -13,7 +13,7 @@ pkg install developer/versioning/git
 pkg_add git
 apk add git
 tazpkg get-install git
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+curl https://gh.imjcj.eu.org/https://raw.githubusercontent.com/Jun-Software/Jun-Online-Judge/master/get-pip.py -o get-pip.py
 python3 get-pip.py
 git clone https://gh.imjcj.eu.org/https://github.com/Jun-Software/Jun-Online-Judge
 pip3 install -r requirements.txt
