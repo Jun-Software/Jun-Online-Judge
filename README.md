@@ -21,9 +21,6 @@
 2. 用`python3`运行`index.py`即可
 > `python3 index.py`
 
-温馨提示：
-
-> 部署成功后，请勿再次配置`config.py`
 </details>
 
 
