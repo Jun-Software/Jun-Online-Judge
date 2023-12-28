@@ -3,6 +3,7 @@ name: Docker
 on:
   release: 
     branchs: ["master"]
+  workflow_dispatch:
 
 jobs:
   build-and-publish-tag:
