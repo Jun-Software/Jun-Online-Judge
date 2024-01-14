@@ -17,5 +17,5 @@ git clone https://gh.imjcj.eu.org/https://github.com/Jun-Software/Jun-Online-Jud
 cd joj
 python3 get-pip.py
 pip3 install -r requirements.txt
-vi config.py
+vim config.py
 python3 index.py
