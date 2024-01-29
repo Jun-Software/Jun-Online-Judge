@@ -124,18 +124,18 @@ def problem(ojpath):
                 return render_template('problem.html', problem_description = markdown(problem['description']), problem_id = problem['id'], language = judge_language)
     return "404 Not Found"
 
-@app.route('/content')
-def content():
+@app.route('/contest')
+def contest():
     problems = request.values.get('problems')
     if session.get('ac') == None:
         return redirect('/login')
     minute = request.values.get('time')
-    return render_template('content.html', time = minute, len = len, problems = problems)
+    return render_template('contest.html', time = minute, len = len, problems = problems)
 
-@app.route('/frame_content')
-def frame_content():
+@app.route('/frame_contest')
+def frame_contest():
     problems = request.values.get('problems').split(';')
-    return render_template('content_problems.html', problems = problems, ac = session.get('ac'))
+    return render_template('contest_problems.html', problems = problems, ac = session.get('ac'))
 
 @app.route('/login')
 def login():
