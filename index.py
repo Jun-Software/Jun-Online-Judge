@@ -248,6 +248,7 @@ def problem_api():
             else:
                 problem_description = problem_description.replace('`', '</textarea>', 1)
         os.mkdir('problem/' + problem_id + '/')
+        os.mkdir('temp/' + problem_id + '/')
         zip_file.save('problem/' + problem_id + '/' + problem_id + '.zip')
         zipfile.ZipFile('problem/' + problem_id + '/' + problem_id + '.zip').extractall('problem/' + problem_id + '/')
         problems.append({'id': problem_id, 'name': problem_name, 'description': problem_description, 'count': problem_count})
