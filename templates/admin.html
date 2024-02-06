@@ -7,78 +7,78 @@
     <body>
         <ul class="nav justify-content-end nav-tabs">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">主页</a>
             </li>
         </ul>
         <div class="card m-3">
-        <center class="m-3"><h4>Control Panel</h4></center>
+        <center class="m-3"><h4>控制面板</h4></center>
         <details class="m-3">
-        <summary>Problem</summary>
+        <summary>题目</summary>
         <div class="card">
         <form method="post" action="/api/problem" class="m-3" enctype="multipart/form-data" >
             <div class="form-check mb-3">
-                <input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">Delete</label>
+                <input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">删除</label>
             </div>
             <div class="form-check mb-3">
-                <input type="radio" class="form-check-input" value="add" name="type" id="radio2"><label class="form-check-label" for="radio2">Addition</label>
+                <input type="radio" class="form-check-input" value="add" name="type" id="radio2"><label class="form-check-label" for="radio2">添加</label>
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Problem ID" name="id">
+                <input type="text" class="form-control" placeholder="题目ID" name="id">
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Problem Name (If type is Addition)" name="name">
+                <input type="text" class="form-control" placeholder="题目名 (添加题目)" name="name">
             </div>
             <div class="input-group mb-3">
-                <div id="editor" class="form-control"><textarea placeholder="Problem Description (If type is Addition)" name="description">{{ problem_template }}</textarea></div>
+                <div id="editor" class="form-control"><textarea placeholder="题目描述 (添加题目)" name="description">{{ problem_template }}</textarea></div>
             </div>
-            <p>All Judge File (.zip) (If type is addition): </p>
+            <p>评测数据(.zip) (添加题目): </p>
             <div class="input-group mb-3">
                 <input type="file" class="form-control" name="file" />
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Problem Judge File Count (If type is Addition)" name="count">
+                <input type="text" class="form-control" placeholder="评测数据总数 (添加题目)" name="count">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">提交</button>
         </form>
         </div>
         </details>
         <details class="m-3">
-        <summary>User</summary>
+        <summary>用户</summary>
         <div class="card">
         <form method="post" action="/api/user" class="m-3" enctype="multipart/form-data" >
             <div class="form-check mb-3">
-                <input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">Delete</label>
+                <input type="radio" class="form-check-input" value="del" name="type" id="radio1"><label class="form-check-label" for="radio1">删除</label>
             </div>
             <div class="form-check mb-3">
-                <input type="radio" class="form-check-input" value="add" name="type" id="radio2"><label class="form-check-label" for="radio2">Addition</label>
+                <input type="radio" class="form-check-input" value="add" name="type" id="radio2"><label class="form-check-label" for="radio2">添加</label>
             </div>
             <div class="form-check mb-3">
-                <input type="radio" class="form-check-input" value="ban" name="type" id="radio3"><label class="form-check-label" for="radio2">Ban</label>
+                <input type="radio" class="form-check-input" value="ban" name="type" id="radio3"><label class="form-check-label" for="radio2">封禁</label>
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Username" name="username">
+                <input type="text" class="form-control" placeholder="用户名" name="username">
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Password (If type is Addition)" name="password">
+                <input type="text" class="form-control" placeholder="密码 (添加题目)" name="password">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">提交</button>
         </form>
         </div>
         </details>
         <details class="m-3">
-        <summary>Backup</summary>
+        <summary>备份</summary>
         <div class="card">
             <div class="m-3">
-                <a class="btn btn-primary" href="/backup?password={{ admin_password }}">Download Backup</a>
+                <a class="btn btn-primary" href="/backup?password={{ admin_password }}">下载备份</a>
             </div>
             <hr />
             <form method="post" action="/api/backup" class="m-3" enctype="multipart/form-data" >
                 <input type="password" value="{{ admin_password }}" readonly style="display: none;" name="passwd">
-                <p>Upload backup file: </p>
+                <p>恢复备份: </p>
                 <div class="input-group mb-3">
                     <input type="file" class="form-control" name="file" />
                 </div>
-                <button class="btn btn-primary">Submit</button>
+                <button class="btn btn-primary">提交</button>
             </form>
         </div>
         </details>
@@ -87,28 +87,28 @@
         <div class="card">
             <div class="m-3">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Problems (Use ';' split)" id="problems">
+                <input type="text" class="form-control" placeholder="题目 (使用英语分号';'分割)" id="problems">
             </div>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Time (Minute)" id="time">
+                <input type="text" class="form-control" placeholder="时间 (以分钟为单位)" id="time">
             </div>
             <script>
                 function generate_content_link() {
-                    alert("The link is '" + location.origin + "/content?problems=" + document.getElementById('problems').value + "&time=" + document.getElementById('time').value + "'")
+                    alert("比赛链接为'" + location.origin + "/content?problems=" + document.getElementById('problems').value + "&time=" + document.getElementById('time').value + "'，请复制。")
                 }
             </script>
-            <button class="btn btn-primary" onclick="generate_content_link()">Generate Link</button>
+            <button class="btn btn-primary" onclick="generate_content_link()">生成链接</button>
             </div>
         </div>
         </details>
         </div>
         <details class="m-3">
-        <summary>Problems</summary>
+        <summary>题库</summary>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">&emsp;#</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">题目名</th>
                 </tr>
             </thead>
             <tbody>
@@ -122,14 +122,14 @@
         </table>
         </details>
         <details class="m-3">
-        <summary>Users</summary>
+        <summary>用户</summary>
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">&emsp;#</th>
-                    <th>&ensp;&nbsp;Name</th>
-                    <th>Email</th>
-                    <th>Ban</th>
+                    <th>&ensp;&nbsp;用户名</th>
+                    <th>邮箱</th>
+                    <th>已封禁</th>
                 </tr>
             </thead>
             <tbody>

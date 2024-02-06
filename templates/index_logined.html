@@ -7,28 +7,28 @@
     <body>
         <ul class="nav justify-content-end nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active">Home</a>
+                <a class="nav-link active">主页</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/rank">Rank</a>
+                <a class="nav-link" href="/rank">排名</a>
             </li>
             <li class="nav-item">
                 <div class="dropdown">
-                <a class="dropdown-toggle btn nav-link" data-bs-toggle="dropdown" aria-expanded="false">Welcome, {{ username }}</a>
+                <a class="dropdown-toggle btn nav-link" data-bs-toggle="dropdown" aria-expanded="false">欢迎你, {{ username }}</a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="/profile?username={{ username }}">Profile</a>
+                        <a class="dropdown-item" href="/profile?username={{ username }}">个人资料预览</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="/change_profile">Change Profile</a>
+                        <a class="dropdown-item" href="/change_profile">更改个人资料</a>
                     </li>
                     {% if username == 'admin' %}
                     <li>
-                        <a class="dropdown-item" href="/login_admin">Control Panel</a>
+                        <a class="dropdown-item" href="/login_admin">控制面板</a>
                     </li>
                     {% endif %}
                     <li>
-                        <a class="dropdown-item" href="/logout">Logout</a>
+                        <a class="dropdown-item" href="/logout">退出登录</a>
                     </li>
                 </ul>
             </li>
@@ -38,7 +38,7 @@
                 <tr>
                     <th scope="col" width="5%"></th>
                     <th scope="col">&emsp;#</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">题目名</th>
                 </tr>
             </thead>
             <tbody>

@@ -7,16 +7,16 @@
     <body>
         <ul class="nav justify-content-end nav-tabs">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">主页</a>
             </li>
         </ul>
         <div class="card m-3">
         <form method="post" action="/change_profile" class="m-3" enctype="multipart/form-data" >
-            Profile: 
+            个人信息: 
             <div class="input-group mb-3">
                 <div id="editor" class="form-control"><textarea name="profile">{{ user['profile'] }}</textarea></div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">提交</button>
         </form>
         </div>
         <script src="../static/jquery.min.js"></script>
