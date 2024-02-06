@@ -126,7 +126,7 @@ def problem(ojpath):
                         pickle.dump(users, f)
                 return render_template("test.html", result = result)
             elif request.method == 'GET':
-                return render_template('problem.html', problem_description = markdown(problem['description']), problem_id = problem['id'], language = judge_language)
+                return render_template('problem.html', problem_description = markdown(problem['description']), problem_id = problem['id'], language = 'C++ 11')
     return "404 Not Found"
 
 @app.route('/contest')
