@@ -107,10 +107,10 @@ def problem(ojpath):
         if problem['id'] == str(ojpath):
             if request.method == 'POST':
                 file = request.files.get('file')
-                file.save('problem/' + problem['id'] + '/' + problem['id'] + '.code')
-                with open('problem/' + problem['id'] + '/' + problem['id'] + '.code') as f:
+                file.save('problem/' + problem['id'] + '/' + problem['id'] + '.' + judge_language_ext)
+                with open('problem/' + problem['id'] + '/' + problem['id'] + '.' + judge_language_ext) as f:
                     code = f.read()
-                    if ('__builtins__' in code or 'exec' in code or 'eval' in code or 'import' in code or 'open' in code):
+                    if ('__builtins__' in code or 'exec' in code or 'eval' in code or 'import' in code or 'open' in code or 'system' in code):
                         result = "Dangerous Syscalls"
                 result = run(str(problem['id']), int(problem['count']))
                 global user

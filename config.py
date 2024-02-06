@@ -1,5 +1,6 @@
 admin_password = 'admin'
 judge_language = 'C++ 11'
+judge_language_ext = 'cpp'
 # judge_command = 'python {}'
 judge_command = 'g++ {} -o a.out -w -std=c++11 | ./a.out'
 
