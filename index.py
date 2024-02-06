@@ -88,6 +88,7 @@ except:
         pickle.dump(users, f)
 try:
     os.mkdir('problem/')
+    os.mkdir('temp/')
 except:
     pass
 
