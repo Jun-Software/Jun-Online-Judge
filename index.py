@@ -26,7 +26,7 @@ def run(name: str, count: int):
     for i in range(1, count + 1):
         in_file = 'problem/' + name + '/' + str(i) + '.in'
         out_file = 'problem/' + name + '/' + str(i) + '.out'
-        file_name = 'problem/' + name + '/' + name + '.code'
+        file_name = 'problem/' + name + '/' + name + '.' + judge_language_ext
         obj_out = ''
         for j in judge_command.format(file_name).split('|'):
             obj = subprocess.Popen(shlex.split(j), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
