@@ -27,31 +27,35 @@ def run(name: str, count: int):
         in_file = 'problem/' + name + '/' + str(i) + '.in'
         out_file = 'problem/' + name + '/' + str(i) + '.out'
         file_name = 'problem/' + name + '/' + name + '.code'
-        obj = subprocess.Popen(shlex.split(judge_command.format(file_name).split('|')), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
-        timer = Timer(2, kill_command, [obj])
-        try:
-            timer.start()
-            with open(in_file) as f:
-                lines = f.readlines()
-            for line in lines:
-                obj.stdin.write(line)
-            obj_out, obj_err = obj.communicate()
-            if obj_err == '':
-                with open(out_file) as f:
-                    context = f.read()
-                if context == obj_out:
+        obj_out = ''
+        for j in judge_command.format(file_name).split('|'):
+            obj = subprocess.Popen(shlex.split(j), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
+            timer = Timer(2, kill_command, [obj])
+            try:
+                timer.start()
+                with open(in_file) as f:
+                    lines = f.readlines()
+                for line in lines:
+                    obj.stdin.write(line)
+                _obj_out, _obj_err = obj.communicate()
+                obj_out += _obj_out
+                if _obj_err == '':
                     pass
                 else:
-                    if flag == True:
-                        result = 'Time Limit Exceeded'
-                    else:
-                        result = 'Wrong Answer'
+                    result = 'Compile Error'
+            except:
+                result = 'System Error'
+            finally:
+                timer.cancel()
+        with open(out_file) as f:
+            context = f.read()
+        if context == obj_out:
+            pass
+        else:
+            if flag == True:
+                result = 'Time Limit Exceeded'
             else:
-                result = 'Compile Error'
-        except:
-            result = 'System Error'
-        finally:
-            timer.cancel()
+                result = 'Wrong Answer'
     return result
 
 def createBackup(outFullName):
