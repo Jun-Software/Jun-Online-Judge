@@ -26,9 +26,10 @@ def run(name: str, count: int):
     for i in range(1, count + 1):
         in_file = 'problem/' + name + '/' + str(i) + '.in'
         out_file = 'problem/' + name + '/' + str(i) + '.out'
-        file_name = 'problem/' + name + '/' + name + '.' + judge_language_ext
+        file_name = 'problem/' + name + '/' + name + '.cpp'
         obj_out = ''
-        for j in judge_command.format(file_name).split('|'):
+        lst = [f"g++ {file_name} -w -std=c++11", "./a.out"]
+        for j in lst:
             obj = subprocess.Popen(shlex.split(j), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
             timer = Timer(2, kill_command, [obj])
             try:
@@ -107,8 +108,8 @@ def problem(ojpath):
         if problem['id'] == str(ojpath):
             if request.method == 'POST':
                 file = request.files.get('file')
-                file.save('problem/' + problem['id'] + '/' + problem['id'] + '.' + judge_language_ext)
-                with open('problem/' + problem['id'] + '/' + problem['id'] + '.' + judge_language_ext) as f:
+                file.save('problem/' + problem['id'] + '/' + problem['id'] + '.cpp')
+                with open('problem/' + problem['id'] + '/' + problem['id'] + '.cpp') as f:
                     code = f.read()
                     if ('__builtins__' in code or 'exec' in code or 'eval' in code or 'import' in code or 'open' in code or 'system' in code):
                         result = "Dangerous Syscalls"
