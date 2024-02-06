@@ -6,7 +6,6 @@ import zipfile
 from config import *
 import pickle
 import shutil
-import shlex
 import os
 import sys
 from markdown import markdown
@@ -27,7 +26,7 @@ def run(name: str, count: int):
         in_file = 'problem/' + name + '/' + str(i) + '.in'
         out_file = 'problem/' + name + '/' + str(i) + '.out'
         file_name = 'problem/' + name + '/' + name + '.code'
-        obj = subprocess.Popen(shlex.split(judge_command.format(file_name)), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
+        obj = subprocess.Popen(judge_command.format(file_name), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
         timer = Timer(2, kill_command, [obj])
         try:
             timer.start()
