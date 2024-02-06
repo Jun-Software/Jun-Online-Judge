@@ -26,9 +26,9 @@ def run(name: str, count: int):
     for i in range(1, count + 1):
         in_file = 'problem/' + name + '/' + str(i) + '.in'
         out_file = 'problem/' + name + '/' + str(i) + '.out'
-        code_file_name = 'problem/' + name + '/' + name + '.cpp'
+        code_file_name = 'temp/' + name + '/' + name + '.cpp'
         obj_out = ''
-        lst = [f"sudo g++ {code_file_name} -w -std=c++11 -o {name}.out", f"./{name}.out"]
+        lst = [f"sudo g++ {code_file_name} -w -std=c++11 -o temp/{name}.out", f"./temp/{name}.out"]
         for j in lst:
             obj = subprocess.Popen(shlex.split(j), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
             timer = Timer(2, kill_command, [obj])
@@ -108,8 +108,8 @@ def problem(ojpath):
         if problem['id'] == str(ojpath):
             if request.method == 'POST':
                 file = request.files.get('file')
-                file.save('problem/' + problem['id'] + '/' + problem['id'] + '.cpp')
-                with open('problem/' + problem['id'] + '/' + problem['id'] + '.cpp') as f:
+                file.save('temp/' + problem['id'] + '/' + problem['id'] + '.cpp')
+                with open('temp/' + problem['id'] + '/' + problem['id'] + '.cpp') as f:
                     code = f.read()
                     if ('__builtins__' in code or 'exec' in code or 'eval' in code or 'import' in code or 'open' in code or 'system' in code):
                         result = "Dangerous Syscalls"
