@@ -1,8 +1,7 @@
 admin_password = 'admin'
-judge_language = 'Python 3'
-judge_language_ext = 'py'
-judge_command = 'python {}'
-# judge_command = 'sudo g++ {} -o a.out -w -std=c++11 | ./a.out'
+judge_language = 'C++ 11'
+judge_language_ext = 'cpp'
+judge_command = 'sudo g++ {} -o a.out -w -std=c++11 | ./a.out'
 
 problem_template = '''
 ## [题目名称]
