@@ -72,13 +72,6 @@ def createBackup(outFullName):
         fpath = path.replace(os.getcwd(), '')
         for filename in filenames:
             zip.write(os.path.join(path, filename), os.path.join(fpath, filename))
-    dirpath = os.getcwd() + '/temp'
-    zip = zipfile.ZipFile(outFullName, "w", zipfile.ZIP_DEFLATED)
-    for path, dirnames, filenames in os.walk(dirpath):
-        print(path, dirnames, filenames)
-        fpath = path.replace(os.getcwd(), '')
-        for filename in filenames:
-            zip.write(os.path.join(path, filename), os.path.join(fpath, filename))
     zip.write(os.path.join(os.getcwd(), 'data.dat'), os.path.join('', 'data.dat'))
     zip.write(os.path.join(os.getcwd(), 'user.dat'), os.path.join('', 'user.dat'))
     zip.close()
@@ -100,6 +93,9 @@ except:
         pickle.dump(users, f)
 try:
     os.mkdir('problem/')
+except:
+    pass
+try:
     os.mkdir('temp/')
 except:
     pass
@@ -139,6 +135,10 @@ def problem(ojpath):
                         pickle.dump(users, f)
                 return render_template("test.html", result = result)
             elif request.method == 'GET':
+                try:
+                    os.mkdir('temp/' + problem['id'] + '/')
+                except:
+                    pass
                 return render_template('problem.html', problem_description = markdown(problem['description']), problem_id = problem['id'], language = judge_language)
     return "404 Not Found"
 
