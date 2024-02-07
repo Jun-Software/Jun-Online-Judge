@@ -82,7 +82,7 @@ try:
 except:
     problems = []
     with open('data.json', 'w') as f:
-        f.write(json.dumps(problems, f))
+        f.write(json.dumps(problems))
 users = []
 try:
     with open('user.json', 'rb') as f:
@@ -90,7 +90,7 @@ try:
 except:
     users = [{'username': 'admin', 'password': 'admin_password', 'ac': [], 'profile': '', 'ban': False}]
     with open('user.json', 'wb') as f:
-        f.write(json.dumps(users, f))
+        f.write(json.dumps(users))
 try:
     os.mkdir('problem/')
 except:
@@ -132,7 +132,7 @@ def problem(ojpath):
                             session['ac'] = user['ac']
                             break
                     with open('user.json', 'wb') as f:
-                        f.write(json.dumps(users, f))
+                        f.write(json.dumps(users))
                 return render_template("test.html", result = result)
             elif request.method == 'GET':
                 try:
@@ -221,7 +221,7 @@ def change_profile():
             user['profile'] = markdown(profile)
             break
     with open('user.json', 'wb') as f:
-        f.write(json.dumps(users, f))
+        f.write(json.dumps(users))
     return redirect('/')
 
 @app.route('/profile')
@@ -265,14 +265,14 @@ def problem_api():
         zipfile.ZipFile('problem/' + problem_id + '/' + problem_id + '.zip').extractall('problem/' + problem_id + '/')
         problems.append({'id': problem_id, 'name': problem_name, 'description': problem_description, 'count': problem_count})
         with open('data.json', 'wb') as f:
-            f.write(json.dumps(problems, f))
+            f.write(json.dumps(problems))
     elif Type == 'del':
         for problem in problems:
             if problem['id'] == problem_id:
                 problems.remove(problem)
                 shutil.rmtree('problem/' + problem_id + '/')
         with open('data.json', 'wb') as f:
-            f.write(json.dumps(problems, f))
+            f.write(json.dumps(problems))
     else:
         return '404 Not Found'
     global password
@@ -294,7 +294,7 @@ def user_api():
             return "Username is already."
         users.append({'username': username, 'password': password, 'email': '', 'ac': [], 'profile': '', 'ban': False})
         with open('user.json', 'wb') as f:
-            f.write(json.dumps(users, f))
+            f.write(json.dumps(users))
     elif Type == 'del':
         if username == 'admin':
             return "You cannot delete the Administrator account."
@@ -312,7 +312,7 @@ def user_api():
     else:
         return '404 Not Found'
     with open('user.json', 'wb') as f:
-        f.write(json.dumps(users, f))
+        f.write(json.dumps(users))
     global admin_password
     return render_template('redirect.html', passwd = admin_password)
 
@@ -348,7 +348,7 @@ def register_api():
         return render_template('login_redirect.html', message = "Username is already.")
     users.append({'username': username, 'password': password, 'email': email, 'ac': [], 'profile': ''})
     with open('user.json', 'wb') as f:
-        f.write(json.dumps(users, f))
+        f.write(json.dumps(users))
     session['username'] = username
     session['ac'] = []
     return redirect('/')
