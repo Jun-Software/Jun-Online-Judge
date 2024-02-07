@@ -27,7 +27,7 @@ def run(name: str, count: int):
         in_file = 'problem/' + name + '/' + str(i) + '.in'
         out_file = 'problem/' + name + '/' + str(i) + '.out'
         obj_out = ''
-        lst = judge_command.split('|')
+        lst = judge_command.format(name).split('|')
         for j in lst:
             obj = subprocess.Popen(shlex.split(j), stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = subprocess.PIPE, universal_newlines = True)
             timer = Timer(2, kill_command, [obj])
