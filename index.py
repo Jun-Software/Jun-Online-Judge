@@ -38,6 +38,9 @@ def run(name: str, count: int):
                 for line in lines:
                     obj.stdin.write(line)
                 _obj_out, _obj_err = obj.communicate()
+                _obj_out = _obj_out.strip(' ')
+                _obj_out = _obj_out.strip('\n')
+                _obj_out = _obj_out.strip('\r')
                 obj_out += _obj_out
                 if _obj_err == '':
                     pass
