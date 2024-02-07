@@ -52,6 +52,9 @@ def run(name: str, count: int):
                 timer.cancel()
         with open(out_file) as f:
             context = f.read()
+        context = context.strip(' ')
+        context = context.strip('\n')
+        context = context.strip('\r')
         if context == obj_out:
             pass
         else:
