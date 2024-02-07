@@ -78,7 +78,7 @@ def createBackup(outFullName):
 problems = []
 try:
     with open('data.json', 'r') as f:
-        problems = json.loads(f)
+        problems = json.loads(f.read())
 except:
     problems = []
     with open('data.json', 'w') as f:
@@ -86,7 +86,7 @@ except:
 users = []
 try:
     with open('user.json', 'r') as f:
-        users = json.loads(f)
+        users = json.loads(f.read())
 except:
     users = [{'username': 'admin', 'password': 'admin_password', 'ac': [], 'profile': '', 'ban': False}]
     with open('user.json', 'w') as f:
@@ -362,13 +362,13 @@ def upload_backup():
     global problems
     try:
         with open('data.json', 'r') as f:
-            problems = json.loads(f)
+            problems = json.loads(f.read())
     except:
         problems = []
     global users
     try:
         with open('user.json', 'r') as f:
-            users = json.loads(f)
+            users = json.loads(f.read())
     except:
         users = []
     try:
