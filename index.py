@@ -4,7 +4,7 @@ from threading import Timer
 from pysmx.SM3 import digest
 import zipfile
 from config import *
-import pickle
+import json
 import shutil
 import shlex
 import os
@@ -72,25 +72,25 @@ def createBackup(outFullName):
         fpath = path.replace(os.getcwd(), '')
         for filename in filenames:
             zip.write(os.path.join(path, filename), os.path.join(fpath, filename))
-    zip.write(os.path.join(os.getcwd(), 'data.dat'), os.path.join('', 'data.dat'))
-    zip.write(os.path.join(os.getcwd(), 'user.dat'), os.path.join('', 'user.dat'))
+    zip.write(os.path.join(os.getcwd(), 'data.json'), os.path.join('', 'data.json'))
+    zip.write(os.path.join(os.getcwd(), 'user.json'), os.path.join('', 'user.json'))
     zip.close()
 problems = []
 try:
-    with open('data.dat', 'rb') as f:
-        problems = pickle.load(f)
+    with open('data.json', 'r') as f:
+        problems = json.loads(f)
 except:
     problems = []
-    with open('data.dat', 'wb') as f:
-        pickle.dump(problems, f)
+    with open('data.json', 'w') as f:
+        f.write(json.dumps(problems, f))
 users = []
 try:
-    with open('user.dat', 'rb') as f:
-        users = pickle.load(f)
+    with open('user.json', 'rb') as f:
+        users = json.loads(f)
 except:
     users = [{'username': 'admin', 'password': 'admin_password', 'ac': [], 'profile': '', 'ban': False}]
-    with open('user.dat', 'wb') as f:
-        pickle.dump(users, f)
+    with open('user.json', 'wb') as f:
+        f.write(json.dumps(users, f))
 try:
     os.mkdir('problem/')
 except:
@@ -131,8 +131,8 @@ def problem(ojpath):
                             user['ac'].append(problem['id'])
                             session['ac'] = user['ac']
                             break
-                    with open('user.dat', 'wb') as f:
-                        pickle.dump(users, f)
+                    with open('user.json', 'wb') as f:
+                        f.write(json.dumps(users, f))
                 return render_template("test.html", result = result)
             elif request.method == 'GET':
                 try:
@@ -220,8 +220,8 @@ def change_profile():
         if username == user['username']:
             user['profile'] = markdown(profile)
             break
-    with open('user.dat', 'wb') as f:
-        pickle.dump(users, f)
+    with open('user.json', 'wb') as f:
+        f.write(json.dumps(users, f))
     return redirect('/')
 
 @app.route('/profile')
@@ -264,15 +264,15 @@ def problem_api():
         zip_file.save('problem/' + problem_id + '/' + problem_id + '.zip')
         zipfile.ZipFile('problem/' + problem_id + '/' + problem_id + '.zip').extractall('problem/' + problem_id + '/')
         problems.append({'id': problem_id, 'name': problem_name, 'description': problem_description, 'count': problem_count})
-        with open('data.dat', 'wb') as f:
-            pickle.dump(problems, f)
+        with open('data.json', 'wb') as f:
+            f.write(json.dumps(problems, f))
     elif Type == 'del':
         for problem in problems:
             if problem['id'] == problem_id:
                 problems.remove(problem)
                 shutil.rmtree('problem/' + problem_id + '/')
-        with open('data.dat', 'wb') as f:
-            pickle.dump(problems, f)
+        with open('data.json', 'wb') as f:
+            f.write(json.dumps(problems, f))
     else:
         return '404 Not Found'
     global password
@@ -293,8 +293,8 @@ def user_api():
         if flag == False:
             return "Username is already."
         users.append({'username': username, 'password': password, 'email': '', 'ac': [], 'profile': '', 'ban': False})
-        with open('user.dat', 'wb') as f:
-            pickle.dump(users, f)
+        with open('user.json', 'wb') as f:
+            f.write(json.dumps(users, f))
     elif Type == 'del':
         if username == 'admin':
             return "You cannot delete the Administrator account."
@@ -311,8 +311,8 @@ def user_api():
                 break
     else:
         return '404 Not Found'
-    with open('user.dat', 'wb') as f:
-        pickle.dump(users, f)
+    with open('user.json', 'wb') as f:
+        f.write(json.dumps(users, f))
     global admin_password
     return render_template('redirect.html', passwd = admin_password)
 
@@ -347,8 +347,8 @@ def register_api():
     if flag == False:
         return render_template('login_redirect.html', message = "Username is already.")
     users.append({'username': username, 'password': password, 'email': email, 'ac': [], 'profile': ''})
-    with open('user.dat', 'wb') as f:
-        pickle.dump(users, f)
+    with open('user.json', 'wb') as f:
+        f.write(json.dumps(users, f))
     session['username'] = username
     session['ac'] = []
     return redirect('/')
@@ -361,14 +361,14 @@ def upload_backup():
     zipfile.ZipFile('backup.zip').extractall()
     global problems
     try:
-        with open('data.dat', 'rb') as f:
-            problems = pickle.load(f)
+        with open('data.json', 'rb') as f:
+            problems = json.loads(f)
     except:
         problems = []
     global users
     try:
-        with open('user.dat', 'rb') as f:
-            users = pickle.load(f)
+        with open('user.json', 'rb') as f:
+            users = json.loads(f)
     except:
         users = []
     try:
