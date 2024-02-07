@@ -85,11 +85,11 @@ except:
         f.write(json.dumps(problems))
 users = []
 try:
-    with open('user.json', 'rb') as f:
+    with open('user.json', 'r') as f:
         users = json.loads(f)
 except:
     users = [{'username': 'admin', 'password': 'admin_password', 'ac': [], 'profile': '', 'ban': False}]
-    with open('user.json', 'wb') as f:
+    with open('user.json', 'w') as f:
         f.write(json.dumps(users))
 try:
     os.mkdir('problem/')
@@ -131,7 +131,7 @@ def problem(ojpath):
                             user['ac'].append(problem['id'])
                             session['ac'] = user['ac']
                             break
-                    with open('user.json', 'wb') as f:
+                    with open('user.json', 'w') as f:
                         f.write(json.dumps(users))
                 return render_template("test.html", result = result)
             elif request.method == 'GET':
@@ -175,7 +175,7 @@ def admin():
     global problem_template
     if passwd == admin_password:
         return render_template('admin.html', problems = problems, admin_password = admin_password, users = users, len = len, problem_template = problem_template)
-    return "403 Forbidden"
+    return "403 Foridden"
 
 @app.route('/backup')
 def backup():
@@ -184,7 +184,7 @@ def backup():
     if passwd == admin_password:
         createBackup("static/backup.zip")
         return redirect("/static/backup.zip")
-    return "403 Forbidden"
+    return "403 Foridden"
 
 @app.route('/rank')
 def rank():
@@ -220,7 +220,7 @@ def change_profile():
         if username == user['username']:
             user['profile'] = markdown(profile)
             break
-    with open('user.json', 'wb') as f:
+    with open('user.json', 'w') as f:
         f.write(json.dumps(users))
     return redirect('/')
 
@@ -264,14 +264,14 @@ def problem_api():
         zip_file.save('problem/' + problem_id + '/' + problem_id + '.zip')
         zipfile.ZipFile('problem/' + problem_id + '/' + problem_id + '.zip').extractall('problem/' + problem_id + '/')
         problems.append({'id': problem_id, 'name': problem_name, 'description': problem_description, 'count': problem_count})
-        with open('data.json', 'wb') as f:
+        with open('data.json', 'w') as f:
             f.write(json.dumps(problems))
     elif Type == 'del':
         for problem in problems:
             if problem['id'] == problem_id:
                 problems.remove(problem)
                 shutil.rmtree('problem/' + problem_id + '/')
-        with open('data.json', 'wb') as f:
+        with open('data.json', 'w') as f:
             f.write(json.dumps(problems))
     else:
         return '404 Not Found'
@@ -293,7 +293,7 @@ def user_api():
         if flag == False:
             return "Username is already."
         users.append({'username': username, 'password': password, 'email': '', 'ac': [], 'profile': '', 'ban': False})
-        with open('user.json', 'wb') as f:
+        with open('user.json', 'w') as f:
             f.write(json.dumps(users))
     elif Type == 'del':
         if username == 'admin':
@@ -311,7 +311,7 @@ def user_api():
                 break
     else:
         return '404 Not Found'
-    with open('user.json', 'wb') as f:
+    with open('user.json', 'w') as f:
         f.write(json.dumps(users))
     global admin_password
     return render_template('redirect.html', passwd = admin_password)
@@ -347,7 +347,7 @@ def register_api():
     if flag == False:
         return render_template('login_redirect.html', message = "Username is already.")
     users.append({'username': username, 'password': password, 'email': email, 'ac': [], 'profile': ''})
-    with open('user.json', 'wb') as f:
+    with open('user.json', 'w') as f:
         f.write(json.dumps(users))
     session['username'] = username
     session['ac'] = []
@@ -361,13 +361,13 @@ def upload_backup():
     zipfile.ZipFile('backup.zip').extractall()
     global problems
     try:
-        with open('data.json', 'rb') as f:
+        with open('data.json', 'r') as f:
             problems = json.loads(f)
     except:
         problems = []
     global users
     try:
-        with open('user.json', 'rb') as f:
+        with open('user.json', 'r') as f:
             users = json.loads(f)
     except:
         users = []
