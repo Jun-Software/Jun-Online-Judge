@@ -13,10 +13,7 @@ from markdown import markdown
 # from gevent import monkey
 # monkey.patch_all()
 
-flag = False
 def kill_command(obj):
-    global flag
-    flag = True
     obj.kill()
 
 def run(name: str, count: int):
@@ -47,7 +44,7 @@ def run(name: str, count: int):
                 else:
                     result = 'Compile Error'
             except:
-                result = 'System Error'
+                result = 'Compile Error'
             finally:
                 timer.cancel()
         with open(out_file) as f:
@@ -58,10 +55,7 @@ def run(name: str, count: int):
         if context == obj_out:
             pass
         else:
-            if flag == True:
-                result = 'Time Limit Exceeded'
-            else:
-                result = 'Wrong Answer'
+            result = 'Wrong Answer / Time Limit Exceeded'
     return result
 
 def createBackup(outFullName):

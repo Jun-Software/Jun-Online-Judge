@@ -1,7 +1,7 @@
 admin_password = 'admin'
 judge_language = 'C++ 11'
 judge_language_ext = 'cpp'
-judge_command = "sudo g++ 'temp/{0}/{0}.cpp' -w -std=c++11 -o temp/{0}.out | ./temp/{0}.out"
+judge_command = "g++ 'temp/{0}/{0}.cpp' -w -std=c++11 -o temp/{0}/{0}.out | ./temp/{0}/{0}.out"
 
 problem_template = '''
 ## [题目名称]
