@@ -47,6 +47,17 @@
 
 ---
 
+更新方式：
+在安装目录中运行命令：
+```bash
+git stash
+git pull -f
+git stash apply stash@{0}
+git stash drop stash@{0}
+```
+
+---
+
 附加说明：
 
 题目评测数据压缩包（文件树）：
