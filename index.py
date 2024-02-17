@@ -1,7 +1,7 @@
 from flask import *
 import subprocess
 from threading import Timer
-from pysmx.SM3 import digest
+from pysmx.SM3 import SM3
 import zipfile
 from config import *
 import json
@@ -10,8 +10,14 @@ import shlex
 import os
 import sys
 from markdown import markdown
+sm3 = SM3()
 # from gevent import monkey
 # monkey.patch_all()
+
+def digest(data):
+    global sm3
+    sm3.update(data)
+    return sm3.hexdigest()
 
 def kill_command(obj):
     obj.kill()
@@ -340,7 +346,8 @@ def register_api():
             break
     if flag == False:
         return render_template('login_redirect.html', message = "Username is already.")
-    users.append({'username': username, 'password': password, 'email': email, 'ac': [], 'profile': ''})
+    users.append({'username': username, 'password': password, 'email': email, 'ac': [], 'profile': '', 'ban': False})
+    print(users)
     with open('user.json', 'w') as f:
         f.write(json.dumps(users))
     session['username'] = username
